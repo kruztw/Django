@@ -1,0 +1,61 @@
+###### tags: `program`
+
+# Django
+
+## basic
+pip install django
+django-admin startproject basic # basic 可以換成任意名子
+django-admin startapp myApp
+vim basic/settings.py
+```
+import os
+INSTALLED_APPS = [
+    ...
+    'myApp',
+]
+TEMPLATES = [
+...
+'DIRS': [os.path.join(BASE_DIR, 'templates').replace('\\', '/')],
+...
+]
+```
+vim myApp/urls.py
+```
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home),
+]
+```
+
+vimm myApp/views.py
+```
+from django.shortcuts import render,HttpResponse
+
+def home(request):
+    return render(request, 'home/home.html')
+```
+
+mkdir myApp/templates/home/ -p 
+vim myApp/templates/home/home.html
+```
+<html>
+    hello
+</html>
+```
+vim basic/urls.py 
+```
+from django.contrib import admin
+from django.urls import path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('home/', include('myApp.urls')),
+]
+```
+
+python3 manage.py runserver
+http://127.0.0.1:8000/home/
+
+[參考](https://www.maxlist.xyz/2018/12/31/python_django/)
